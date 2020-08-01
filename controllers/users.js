@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs'); // модуль для хеширования пароля
 const jwt = require('jsonwebtoken'); // создаёт JSON Web Token
 const User = require('../models/user'); // модель пишем с заглавной буквы
+const jwsKey = require('../jwskey');
 
 module.exports.getAllUsers = (req, res) => {
   User.find({})
@@ -44,7 +45,7 @@ module.exports.login = (req, res) => {
   return User.findUserByCredentials(email, password)
     .then((user) => { // если аутентификация прошла успешно, вернётся объект пользователя
       // в пейлоуд токена записываем только _id
-      const token = jwt.sign({ _id: user._id }, 'very-strong-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, jwsKey, { expiresIn: '7d' });
       // отправляем токен браузеру. Браузер сохранит токен в куках
       console.log(`User ${user._id} is logging in`);
       res

@@ -30,5 +30,5 @@ module.exports.deleteCard = (req, res) => {
       return card.remove();
     })
     // если карточка не найдена, уже удалена или др. плохой запрос
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => res.status(404).send({ message: err.message }));
 };

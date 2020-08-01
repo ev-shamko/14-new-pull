@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const jwsKey = require('../jwskey');
 
 // это миддлвара для авторизации пользователя (проверка JWT)
 module.exports.auth = (req, res, next) => {
@@ -11,7 +12,7 @@ module.exports.auth = (req, res, next) => {
 
   try {
     // это верификация токена: метод jwt.verify вернёт пейлоуд токена, если тот прошёл проверку
-    payload = jwt.verify(token, 'very-strong-secret-key');
+    payload = jwt.verify(token, jwsKey);
   } catch (err) {
     return res.status(401).send({ message: 'Необходима авторизация' });
   }
